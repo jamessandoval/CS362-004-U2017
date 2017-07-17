@@ -276,8 +276,8 @@ int playAdventurerCard(struct gameState *state, int temphand[], int z){
   int cardDrawn;
 
       while(drawntreasure<2){
-      // BUG: introduced to miss empty decks.
-  if (state->deckCount[currentPlayer] < 0){//if the deck is empty we need to shuffle discard and add to deck
+      // BUG: introduced to miss empty decks. should be < 1
+  if (state->deckCount[currentPlayer] < 1){//if the deck is empty we need to shuffle discard and add to deck
     shuffle(currentPlayer, state);
   }
   drawCard(currentPlayer, state);
@@ -301,7 +301,7 @@ int playAdventurerCard(struct gameState *state, int temphand[], int z){
 int playSmithyCard(int handPos, struct gameState *state, int currentPlayer){
 
   // BUG: introduced to draw 4 cards instead of 3.
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 3; i++)
   {
     drawCard(currentPlayer, state);
   }
@@ -323,8 +323,7 @@ int playCouncil_roomCard(int handPos, int currentPlayer, struct gameState *state
     state->numBuys++;
       
     // Each other player draws a card
-    // BUG: One player is skipped from drawing a card
-    for (int i = 1; i < state->numPlayers; i++)
+    for (int i = 0; i < state->numPlayers; i++)
     {
       if ( i != currentPlayer )
         {
@@ -359,8 +358,8 @@ int playFeastCard(int currentPlayer, struct gameState *state, int choice1, int t
         printf("Cards Left: %d\n", supplyCount(choice1, state));
       }
     }
-    // BUG: the comparison should be "<" instead of "<=" this allows the card purchased to exceed the value by on. 
-    else if (state->coins <= getCost(choice1)){
+     
+    else if (state->coins < getCost(choice1)){
       printf("That card is too expensive!\n");
 
       if (DEBUG){
@@ -448,6 +447,7 @@ int playBaronCard(struct gameState *state, int currentPlayer, int choice1){
 
 int buyCard(int supplyPos, struct gameState *state) {
   int who;
+
   if (DEBUG){
     printf("Entering buyCard...\n");
   }

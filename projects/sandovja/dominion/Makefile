@@ -1,4 +1,5 @@
 CFLAGS = -Wall -fpic -coverage -lm
+OPTIONS = -fprofile-arcs -ftest-coverage \
 
 rngs.o: rngs.h rngs.c
 	gcc -c rngs.c -g  $(CFLAGS)
@@ -24,17 +25,43 @@ testAll: dominion.o testSuite.c
 
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)
-
-runtests: testDrawCard 
+runtests: testDrawCard
 	./testDrawCard &> unittestresult.out
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
 
+runassignmenttests: unittests cardtests
+	./unittest1 &> unittestresults.out
+	./unittest2 >> unittestresults.out
+	./unittest2 >> unittestresults.out
+	./unittest4 >> unittestresults.out
+	./cardtest1 >> unittestresults.out
+	./cardtest2 >> unittestresults.out
+	./cardtest3 >> unittestresults.out
+	./cardtest4 >> unittestresults.out
+	gcov dominion.c >> unittestresults.out
+	cat dominion.c.gcov >> unittestresults.out
+
+unittests: unittest1.c unittest2.c unittest3.c unittest4.c dominion.o rngs.o
+	gcc $(OPTIONS) -o unittest1 -g  unittest1.c dominion.o rngs.o $(CFLAGS)
+	gcc $(OPTIONS) -o unittest2 -g  unittest2.c dominion.o rngs.o $(CFLAGS)
+	gcc $(OPTIONS) -o unittest3 -g  unittest3.c dominion.o rngs.o $(CFLAGS)
+	gcc $(OPTIONS) -o unittest4 -g  unittest4.c dominion.o rngs.o $(CFLAGS)
+
+cardtests: cardtest1.c cardtest2.c cardtest3.c cardtest4.c dominion.o rngs.o
+	gcc $(OPTIONS) -o cardtest1 -g  cardtest1.c dominion.o rngs.o $(CFLAGS)
+	gcc $(OPTIONS) -o cardtest2 -g  cardtest2.c dominion.o rngs.o $(CFLAGS)
+	gcc $(OPTIONS) -o cardtest3 -g  cardtest3.c dominion.o rngs.o $(CFLAGS)
+	gcc $(OPTIONS) -o cardtest4 -g  cardtest4.c dominion.o rngs.o $(CFLAGS)
+
+# Sample tests
+testUpdateCoins: testUpdateCoins.c dominion.o rngs.o
+	gcc -o testUpdateCoins -g  testUpdateCoins.c dominion.o rngs.o $(CFLAGS)
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
 
-all: playdom player testDrawCard testBuyCard badTestDrawCard
+all: playdom player testDrawCard testBuyCard badTestDrawCard testUpdateCoins
 
 clean:
 	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
