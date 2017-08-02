@@ -1,5 +1,7 @@
+# old CFLAGS - need this to complie on flip
 CFLAGS = -Wall -fpic -coverage -lm
-OPTIONS = -fprofile-arcs -ftest-coverage \
+
+OPTIONS = -fprofile-arcs -ftest-coverage
 
 rngs.o: rngs.h rngs.c
 	gcc -c rngs.c -g  $(CFLAGS)
@@ -30,13 +32,13 @@ runtests: testDrawCard
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
 
-runassignmenttests: unittests cardtests
+runassignmenttests: cardtests
 	./unittest1 &> unittestresults.out
 	./unittest2 >> unittestresults.out
 	./unittest2 >> unittestresults.out
 	./unittest4 >> unittestresults.out
 	./cardtest1 >> unittestresults.out
-	./cardtest2 >> unittestresults.out
+	./cardtest2 &> unittestresults.out
 	./cardtest3 >> unittestresults.out
 	./cardtest4 >> unittestresults.out
 	gcov dominion.c >> unittestresults.out
@@ -54,6 +56,18 @@ cardtests: cardtest1.c cardtest2.c cardtest3.c cardtest4.c dominion.o rngs.o
 	gcc $(OPTIONS) -o cardtest3 -g  cardtest3.c dominion.o rngs.o $(CFLAGS)
 	gcc $(OPTIONS) -o cardtest4 -g  cardtest4.c dominion.o rngs.o $(CFLAGS)
 
+randomtests: randomtestadventurer.c randomtestcard1.c randomtestcard2.c dominion.o rngs.o
+
+	gcc $(OPTIONS) -o randomtestadventurer -g randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
+	gcc $(OPTIONS) -o randomtestcard1 -g randomtestcard1.c dominion.o rngs.o $(CFLAGS)
+	gcc $(OPTIONS) -o randomtestcard2 -g randomtestcard2.c dominion.o rngs.o $(CFLAGS)
+	./randomtestadventurer &> randomtestadventurer.out
+	gcov dominion.c >> randomtestadventurer.out
+	./randomtestcard1 &> randomtestcard1.out
+	gcov dominion.c >> randomtestcard1.out
+	./randomtestcard2 &> randomtestcard2.out
+	gcov dominion.c >> randomtestcard2.out
+
 # Sample tests
 testUpdateCoins: testUpdateCoins.c dominion.o rngs.o
 	gcc -o testUpdateCoins -g  testUpdateCoins.c dominion.o rngs.o $(CFLAGS)
@@ -61,7 +75,11 @@ testUpdateCoins: testUpdateCoins.c dominion.o rngs.o
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
 
-all: playdom player testDrawCard testBuyCard badTestDrawCard testUpdateCoins
+# For testing random tests only, oncomment main all when ready for submission:
+all: playdom player randomtests 	
+
+# Main All
+#all: playdom player testDrawCard testBuyCard badTestDrawCard testUpdateCoins
 
 clean:
-	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
+	rm -rf *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out *.dSYM testDrawCard testDrawCard.exe

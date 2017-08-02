@@ -3,7 +3,8 @@
  *
  *  Function to be tested: playCouncilRoomCard
  *  
- *  trash card and gain a new card with a value of up to 5
+ *  +4 cards + one buy
+ *  all other players draw a card.
  *  
  * -----------------------------------------------------------------------
  */

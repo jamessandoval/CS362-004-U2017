@@ -32,6 +32,7 @@ int checkDrawCard(int p, struct gameState *post) {
     pre.handCount[p]++;
     pre.deckCount[p] = pre.discardCount[p]-1;
     pre.discardCount[p] = 0;
+    
   }
 
   assert (r == 0);
@@ -45,7 +46,6 @@ int main () {
 
   int k[10] = {adventurer, council_room, feast, gardens, mine,
 	       remodel, smithy, village, baron, great_hall};
-
 
   struct gameState G;
   

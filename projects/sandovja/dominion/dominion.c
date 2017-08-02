@@ -40,6 +40,7 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
   int i;
   int j;
   int it;			
+  
   //set up random number generator
   SelectStream(1);
   PutSeed((long)randomSeed);
@@ -275,8 +276,8 @@ int playAdventurerCard(struct gameState *state, int temphand[], int z){
   int currentPlayer = whoseTurn(state);
   int cardDrawn;
 
-      while(drawntreasure<2){
-      // BUG: introduced to miss empty decks. should be < 1
+  while(drawntreasure<2){
+    
   if (state->deckCount[currentPlayer] < 1){//if the deck is empty we need to shuffle discard and add to deck
     shuffle(currentPlayer, state);
   }
@@ -294,6 +295,8 @@ int playAdventurerCard(struct gameState *state, int temphand[], int z){
   state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
   z=z-1;
       }
+
+  
 
   return 0;
 }

@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------
- *  cardtest3.c
+ *  randomtestfeast.c
  *
  *  Function to be tested: playFeastCard
  *
