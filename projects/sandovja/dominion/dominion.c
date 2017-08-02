@@ -40,7 +40,7 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
   int i;
   int j;
   int it;			
-  
+
   //set up random number generator
   SelectStream(1);
   PutSeed((long)randomSeed);
@@ -303,8 +303,9 @@ int playAdventurerCard(struct gameState *state, int temphand[], int z){
 
 int playSmithyCard(int handPos, struct gameState *state, int currentPlayer){
 
+  int i;
   // BUG: introduced to draw 4 cards instead of 3.
-  for (int i = 0; i < 3; i++)
+  for(i = 0; i < 3; i++)
   {
     drawCard(currentPlayer, state);
   }
@@ -317,16 +318,18 @@ int playSmithyCard(int handPos, struct gameState *state, int currentPlayer){
 
 int playCouncil_roomCard(int handPos, int currentPlayer, struct gameState *state){
 
-  for (int i = 0; i < 4; i++)
+  int i;
+
+  for (i = 0; i < 4; i++)
     {
       drawCard(currentPlayer, state);
     }
       
     //+1 Buy
     state->numBuys++;
-      
+    int i;
     // Each other player draws a card
-    for (int i = 0; i < state->numPlayers; i++)
+    for (i = 0; i < state->numPlayers; i++)
     {
       if ( i != currentPlayer )
         {
@@ -415,7 +418,7 @@ int playBaronCard(struct gameState *state, int currentPlayer, int choice1){
     else if (p > state->handCount[currentPlayer]){
       if(DEBUG) {
         printf("No estate cards in your hand, invalid choice\n");
-        printf("Must gain an estate if there are any\n");
+        printf("Must gain an estate if there are any\n"); 
       }
       if (supplyCount(estate, state) > 0){
         gainCard(estate, state, 0, currentPlayer);
