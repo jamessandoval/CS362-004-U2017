@@ -327,7 +327,6 @@ int playCouncil_roomCard(int handPos, int currentPlayer, struct gameState *state
       
     //+1 Buy
     state->numBuys++;
-    int i;
     // Each other player draws a card
     for (i = 0; i < state->numPlayers; i++)
     {
