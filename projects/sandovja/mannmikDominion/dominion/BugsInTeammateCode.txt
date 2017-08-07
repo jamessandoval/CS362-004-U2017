@@ -1,0 +1,7 @@
+Bug-Reports:
+
+1.) Hand count after Adventurer is played should be 0, instead the count increases by 2. This bug required some understanding as I had previously thought that the hand count should be +2, but instead the hand should equal only 2 treasure cards. 
+
+2.) Treasure count should be +2, instead the treasure count test fails. (See above) The hand should contain only 2 treasure cards and nothing else. 
+
+3.) Smithy does not add correct amount of cards, the total deck count before smithy is played should be 5, and after the deck count should be 7, due to smithy be discarded after being played. 
